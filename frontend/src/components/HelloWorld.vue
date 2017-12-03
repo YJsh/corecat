@@ -22,22 +22,8 @@
 </template>
 
 <script>
-import ztree from 'ztree'
-
 export default {
   name: 'HelloWorld',
-  mounted() {
-    const setting = {}
-    const zNodes = [
-    {name:"test1", open:true, children:[
-                    {name:"test1_1"}, {name:"test1_2"}
-    ]},
-    {name:"test2", open:true, children:[
-                    {name:"test2_1"}, {name:"test2_2"}
-    ]}
-    ]
-    let zTreeObj = $.fn.zTree.init($('#dirTree'), setting, zNodes);
-  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'

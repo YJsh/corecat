@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import Greet from '@/components/Greet'
+import DirectoryTree from '@/components/DirectoryTree'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -11,6 +11,11 @@ export default new Router({
       path: '/',
       name: 'greet',
       component: Greet
+    },
+    {
+      path: '/share',
+      name: 'share',
+      component: DirectoryTree
     }
   ]
 })
