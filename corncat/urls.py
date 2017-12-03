@@ -15,11 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-
-from greet.views import greet
+from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
-    url(r'^$', greet),
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
 ]
