@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Greet from '@/components/Greet'
-import DirectoryTree from '@/components/DirectoryTree'
+import SharedDir from "@/components/SharedDir"
 
 Vue.use(Router);
 
@@ -15,7 +15,7 @@ export default new Router({
     {
       path: '/share',
       name: 'share',
-      component: DirectoryTree
+      component: SharedDir
     }
   ]
 })
