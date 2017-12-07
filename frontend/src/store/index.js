@@ -17,7 +17,8 @@ const state = {
         {name: 'test2_1'}, {name: 'test2_2'}
       ]
     }
-  ]
+  ],
+  dirTreeNodeAdded: [],
 };
 
 const mutations={
@@ -30,16 +31,19 @@ const mutations={
   reduce(state){
     state.count-=1;
   },
-  // addNode(state) {
-  //   state.dirTreeNode = [];
-  // }
-}
+  addNodes(state, fileList) {
+    state.dirTreeNodeAdded = [];
+    for (let i in fileList) {
+      state.dirTreeNodeAdded.push({name: fileList[i]["name"]});
+    }
+  }
+};
 
 const getters = {
   count:function(state){
     return state.count +=100;
   }
-}
+};
 
 export default new Vuex.Store({
   state,
