@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import StreamingHttpResponse
+from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 from models import FileNode
 # Create your views here.
@@ -80,7 +81,8 @@ def addDir(request):
 
 
 def addFile(request):
-    nodeName = ""
-    nodeFile = ""
-    node = FileNode(name=nodeName, file=nodeFile)
+    nodeName = request.POST.get("name", "")
+    nodeFile = request.FILES.get("file", "")
+
+    node = FileNode(name=nodeName, file=File(nodeName, nodeFile))
     node.save()
