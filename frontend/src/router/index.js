@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Error from '@/compoents/Error'
 import Greet from '@/components/Greet'
 import SharedDir from "@/components/SharedDir"
 
@@ -16,6 +17,11 @@ export default new Router({
       path: '/share',
       name: 'share',
       component: SharedDir
+    },
+    {
+      path: '*',
+      hidden: true,
+      component: Error
     }
   ]
 })
