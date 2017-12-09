@@ -131,6 +131,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/dist/static'),
 ]
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'user')
+
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = ('localhost:9000',)
 CORS_ALLOW_METHODS = ('GET', 'POST')
