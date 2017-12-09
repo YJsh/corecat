@@ -3,9 +3,13 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import StreamingHttpResponse
+from django.http import HttpResponse
+from django.http import JsonResponse
 from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 from models import FileNode
+
+import json
 # Create your views here.
 
 
@@ -26,16 +30,17 @@ def getTreeNodes(nodes, parent):
 
 
 def getDirTree(request):
-    nodes = FileNode.objects.fileter(parent=None)
-    dirTree = [{
+    nodes = FileNode.objects.filter(parent=None)
+    dirTree = {
         "id": -1,
         "name": u"共享目录",
         "isParent": True,
         "open": True,
         "children": []
-    }]
+    }
 
     getTreeNodes(nodes, dirTree)
+    return HttpResponse(json.dumps([dirTree]))
 
 
 def renameNode(request):
@@ -46,7 +51,9 @@ def renameNode(request):
         node.name = nodeName
         node.save()
     except ObjectDoesNotExist:
-        return
+        pass
+
+    return HttpResponse()
 
 
 def deleteTree(node):
@@ -55,7 +62,7 @@ def deleteTree(node):
         pass
 
     for node in node.dir.all():
-        deleteTree(node)
+        node.file.delete()
 
 
 def deleteNode(request):
@@ -64,7 +71,9 @@ def deleteNode(request):
         node = FileNode.objects.get(id=nodeId)
         deleteTree(node)
     except ObjectDoesNotExist:
-        return
+        pass
+
+    return HttpResponse()
 
 
 def addDir(request):
@@ -79,10 +88,14 @@ def addDir(request):
     node = FileNode(isDir=True, name=nodeName, parent=parent)
     node.save()
 
+    return HttpResponse()
+
 
 def addFile(request):
-    nodeName = request.POST.get("name", "")
-    nodeFile = request.FILES.get("file", "")
+    nodeFile = request.FILES.get("uploadFile", "")
+    name = nodeFile.name
 
-    node = FileNode(name=nodeName, file=File(nodeName, nodeFile))
+    node = FileNode(name=name, file=File(nodeFile))
     node.save()
+
+    return HttpResponse(json.dumps(node.id))
