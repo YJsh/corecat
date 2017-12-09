@@ -7,19 +7,12 @@
 <script>
   import ztree from 'ztree'
   import 'ztree/css/metroStyle/metroStyle.css'
-  // import axios from 'axios'
+  import { getDirTree } from '@/api'
 
   export default {
     name: "dir-tree",
     mounted() {
-      console.log(this);
-      let zTreeObj;
       const setting = {
-        // async: {
-          // enable: true,
-          // type: "post",
-          // url: "http://corncat.com:9000/share/"
-        // },
         callback: {
           beforeDrop: this.beforeDrop,
           onClick: this.onClick,
@@ -50,12 +43,11 @@
           showTitle: false,
         },
       };
-      zTreeObj = $.fn.zTree.init($("#dirTree"), setting, this.dirTreeNode);
+      getDirTree().then(function(response) {
+        $.fn.zTree.init($("#dirTree"), setting, response.data);
+      });
     },
     computed: {
-      dirTreeNode() {
-        return this.$store.state.dirTreeNode;
-      },
       dirTreeNodeAdded() {
         return this.$store.state.dirTreeNodeAdded;
       },
@@ -63,7 +55,8 @@
     watch: {
       dirTreeNodeAdded() {
         let zTreeObj = $.fn.zTree.getZTreeObj("dirTree");
-        zTreeObj.addNodes(null, this.dirTreeNodeAdded);
+        let root = zTreeObj.getNodeByParam("id", -1, null);
+        zTreeObj.addNodes(root, this.dirTreeNodeAdded);
       }
     },
     methods: {

@@ -1,10 +1,10 @@
 <template>
   <el-upload
     class="upload-demo"
+    name="uploadFile"
     drag
-    action="https://jsonplaceholder.typicode.com/posts/"
+    action="http://localhost:8000/share/addFile"
     ref="upload"
-    :multiple=true
     :on-success="uploadSucc">
     <i class="el-icon-upload"></i>
     <div class="el-upload__text">将文件拖入框内，或<em>点击上传</em></div>
@@ -23,7 +23,9 @@
     methods: {
       uploadSucc(response, file, fileList) {
         this.$refs.upload.clearFiles();
-        this.$store.commit("addNodes", fileList);
+        console.log(response);
+        console.log(fileList);
+        this.$store.commit("addNodes", {nodeId:response, fileList:fileList});
       }
     }
   }
