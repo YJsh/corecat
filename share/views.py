@@ -118,11 +118,11 @@ def addFile(request):
     node = FileNode(name=name, file=File(nodeFile))
     node.save()
 
-    return HttpResponse(json.dumps(node.id))
+    url = "http://%s/share/downloadFile/%s" % (request.get_host(), node.id)
+    return HttpResponse(json.dumps({"id": node.id, "fileUrl": url}))
 
 
 def downloadFile(request, nodeId):
-    print "download", nodeId
     def fileIter(fileNode, chunkSize=512):
         fileNode.file.open("r")
         chunk = fileNode.file.read(chunkSize)

@@ -21,15 +21,9 @@ const mutations={
   },
   addNodes(state, args) {
     let nodeId = args.nodeId;
-    let fileList = args.fileList;
-
-    state.dirTreeNodeAdded = [];
-    for (let i in fileList) {
-      if(fileList.hasOwnProperty(i)) {
-        state.dirTreeNodeAdded.push({name: fileList[i]["name"], id: nodeId});
-        nodeId += 1;
-      }
-    }
+    let name = args.name;
+    let fileUrl = args.fileUrl;
+    state.dirTreeNodeAdded = [{name: name, id: nodeId, fileUrl: fileUrl}];
   }
 };
 

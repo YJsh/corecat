@@ -23,9 +23,8 @@
     methods: {
       uploadSucc(response, file, fileList) {
         this.$refs.upload.clearFiles();
-        console.log(response);
-        console.log(fileList);
-        this.$store.commit("addNodes", {nodeId:response, fileList:fileList});
+        this.$store.commit("addNodes", {
+          nodeId:response["id"], fileUrl:response["fileUrl"], name:file.name});
       }
     }
   }
