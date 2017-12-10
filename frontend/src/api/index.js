@@ -18,8 +18,13 @@ export const getDirTree = function() {
   return post("share/getDirTree");
 };
 
-export const deleteNode = function(id) {
-  return post("share/deleteNode", {"id":id});
+export const dropNode = function(ids, parentId) {
+  console.log(ids);
+  return post("share/dropNode", {"ids":JSON.stringify(ids), "parentId":parentId});
+};
+
+export const removeNode = function(id) {
+  return post("share/removeNode", {"id":id});
 };
 
 export const renameNode = function(id, name) {
@@ -28,4 +33,8 @@ export const renameNode = function(id, name) {
 
 export const downloadFile = function(id) {
   return post("share/downloadFile", {"id":id});
+};
+
+export const addDir = function(parentId, name) {
+  return post("share/addDir", {"parentId":parentId, "name":name});
 };

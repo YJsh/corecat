@@ -47,6 +47,20 @@ def getDirTree(request):
     return HttpResponse(json.dumps([dirTree]))
 
 
+def dropNode(request):
+    nodeIds = json.loads(request.POST.get("ids", []))
+    parentId = request.POST.get("parentId", -1)
+    try:
+        parent = FileNode.objects.get(id=parentId)
+        for nodeId in nodeIds:
+            node = FileNode.objects.get(id=nodeId)
+            node.parent = parent
+            node.save()
+    except ObjectDoesNotExist:
+        pass
+    return HttpResponse()
+
+
 def renameNode(request):
     nodeId = request.POST.get("id", -1)
     nodeName = request.POST.get("name", "")
@@ -61,12 +75,12 @@ def renameNode(request):
 
 
 def removeTree(node):
-    if not node.isDir:
-        node.file.delete()
-        node.delete()
-
     for node in node.dir.all():
         removeTree(node)
+
+    if not node.isDir:
+        node.file.delete()
+    node.delete()
 
 
 def removeNode(request):

@@ -7,7 +7,7 @@
 <script>
   import ztree from 'ztree'
   import 'ztree/css/metroStyle/metroStyle.css'
-  import { getDirTree, deleteNode, downloadFile, renameNode } from '@/api'
+  import { addDir, getDirTree, dropNode, downloadFile, removeNode, renameNode } from '@/api'
 
   export default {
     name: "dir-tree",
@@ -19,7 +19,6 @@
           onDrop: this.onDrop,
           onRemove: this.onRemove,
           onRename: this.onRename,
-          onRightClick: this.onRightClick,
         },
         data: {
           keep: {
@@ -62,7 +61,7 @@
       }
     },
     methods: {
-      beforeDrop: function(treeId, treeNodes, targetNode, moveType) {
+      beforeDrop: function(treeId, treeNodes, targetNode, moveType, isCopy) {
         if ("inner" === moveType) {
           if (targetNode == null) {
             return false;
@@ -83,27 +82,50 @@
           window.location.href = treeNode.fileUrl;
         }
       },
-      onDrop: function(event, treeId, treeNode) {
-        console.log(event, treeId, treeNode);
+      onDrop: function(event, treeId, treeNodes, targetNode, moveType, isCopy) {
+        console.log(event, treeId, treeNodes);
+        let nodeIds = [];
+        for (let i in treeNodes) {
+          if(treeNodes.hasOwnProperty(i)) {
+            let node = treeNodes[i];
+            console.log(node);
+            console.log(node.id);
+            nodeIds.push(node.id);
+          }
+        }
+        dropNode(nodeIds, targetNode.id);
       },
       onRemove: function(event, treeId, treeNode) {
-        deleteNode(treeNode.id);
+        removeNode(treeNode.id);
       },
       onRename: function(event, treeId, treeNode, isCancel) {
-        if (isCancel) { return true; }
+        if (isCancel) return;
         renameNode(treeNode.id, treeNode.name);
       },
-      onRightClick: function(event, treeId, treeNode) {
+      addHoverDom: function(treeId, treeNode) {
+        if (!treeNode.isParent) return;
+        if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length>0) return;
+
+        let span = $("#" + treeNode.tId + "_span");
+        let addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+          + "' title='add node' onfocus='this.blur();'></span>";
+        span.append(addStr);
+
+        let btn = $("#addBtn_" + treeNode.tId);
+        if (btn) {
+          btn.bind("click", function() {
+            addDir(treeNode.id, "新建文件夹").then(function(response){
+              if (response.status !== 200) return;
+              let zTree = $.fn.zTree.getZTreeObj("dirTree");
+              zTree.addNodes(treeNode, {id: response.data, isParent: true, name: "新建文件夹"});
+              return true;
+            });
+          });
+        }
       },
-      // addHoverDom: function(treeId, treeNode) {
-      //   let span = $("#" + treeNode.tId + "_span");
-      //   let btnId = "addBtn_" + treeNode.tId;
-      //   if (treeNode.editNameFlag || $("#" + btnId).length>0) return;
-      //   console.log(treeNode.fileUrl);
-      // },
-      // removeHoverDom: function(treeId, treeNode) {
-      //   $("#addBtn_"+treeNode.tId).unbind().remove();
-      // },
+      removeHoverDom: function(treeId, treeNode) {
+        $("#addBtn_"+treeNode.tId).unbind().remove();
+      },
     }
   }
 </script>
