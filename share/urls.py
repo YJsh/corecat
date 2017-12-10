@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^addFile', views.addFile),
     url(r'^renameNode', views.renameNode),
     url(r'^deleteNode', views.deleteNode),
+    url(r'^downloadFile/(?P<nodeId>.*?)$', views.downloadFile),
 ]

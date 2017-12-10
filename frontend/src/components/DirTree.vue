@@ -7,7 +7,7 @@
 <script>
   import ztree from 'ztree'
   import 'ztree/css/metroStyle/metroStyle.css'
-  import { getDirTree, deleteNode, renameNode } from '@/api'
+  import { getDirTree, deleteNode, downloadFile, renameNode } from '@/api'
 
   export default {
     name: "dir-tree",
@@ -39,6 +39,8 @@
           showRenameBtn: true
         },
         view: {
+          addHoverDom: this.addHoverDom,
+          removeHoverDom: this.removeHoverDom,
           autoCancelSelected: false,
           showTitle: false,
         },
@@ -73,6 +75,13 @@
       },
       onClick: function(event, treeId, treeNode){
         console.log("test2");
+        if (treeNode.isParent) {
+          let zTreeObj = $.fn.zTree.getZTreeObj("dirTree");
+          zTreeObj.expandNode(treeNode);
+        }
+        else {
+          window.location.href = treeNode.fileUrl;
+        }
       },
       onDrop: function(event, treeId, treeNode) {
         console.log(event, treeId, treeNode);
@@ -86,6 +95,15 @@
       },
       onRightClick: function(event, treeId, treeNode) {
       },
+      // addHoverDom: function(treeId, treeNode) {
+      //   let span = $("#" + treeNode.tId + "_span");
+      //   let btnId = "addBtn_" + treeNode.tId;
+      //   if (treeNode.editNameFlag || $("#" + btnId).length>0) return;
+      //   console.log(treeNode.fileUrl);
+      // },
+      // removeHoverDom: function(treeId, treeNode) {
+      //   $("#addBtn_"+treeNode.tId).unbind().remove();
+      // },
     }
   }
 </script>

@@ -13,18 +13,21 @@ import json
 # Create your views here.
 
 
-def getTreeNodes(nodes, parent):
+def getTreeNodes(nodes, parent, host):
     for node in nodes:
         treeNode = {
             "id": node.id,
             "name": node.name,
-            "isParent": False,
             "open": False,
-            "children": []
         }
         if node.isDir:
             treeNode["isParent"] = True
-            getTreeNodes(node.dir.all(), treeNode)
+            treeNode["children"] = []
+            getTreeNodes(node.dir.all(), treeNode, host)
+        else:
+            treeNode["isParent"] = False
+            treeNode["fileUrl"] = "http://%s/share/downloadFile/%s" \
+                                  % (host, node.id)
 
         parent["children"].append(treeNode)
     parent["children"].sort(key=lambda child: child["name"])
@@ -34,13 +37,13 @@ def getDirTree(request):
     nodes = FileNode.objects.filter(parent=None)
     dirTree = {
         "id": -1,
-        "name": u"共享目录",
+        "name": u"共享目录（点击下载）",
         "isParent": True,
         "open": True,
         "children": []
     }
 
-    getTreeNodes(nodes, dirTree)
+    getTreeNodes(nodes, dirTree, request.get_host())
     return HttpResponse(json.dumps([dirTree]))
 
 
@@ -100,3 +103,24 @@ def addFile(request):
     node.save()
 
     return HttpResponse(json.dumps(node.id))
+
+
+def downloadFile(request, nodeId):
+    print "download", nodeId
+    def fileIter(fileNode, chunkSize=512):
+        fileNode.file.open("r")
+        chunk = fileNode.file.read(chunkSize)
+        while chunk:
+            print(chunk)
+            yield chunk
+            chunk = fileNode.file.read(chunkSize)
+        fileNode.file.close()
+
+    try:
+        node = FileNode.objects.get(id=nodeId)
+        response = StreamingHttpResponse(fileIter(node))
+        response["Content-Type"] = "application/octet-stream"
+        response["Content-Disposition"] = "attachment;filename='%s'" % node.name
+        return response
+    except ObjectDoesNotExist:
+        return HttpResponse()

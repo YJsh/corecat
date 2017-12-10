@@ -25,3 +25,7 @@ export const deleteNode = function(id) {
 export const renameNode = function(id, name) {
   return post("share/renameNode", {"id":id, "name":name});
 };
+
+export const downloadFile = function(id) {
+  return post("share/downloadFile", {"id":id});
+};
