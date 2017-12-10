@@ -22,6 +22,6 @@ urlpatterns = [
     url(r'^addDir', views.addDir),
     url(r'^addFile', views.addFile),
     url(r'^renameNode', views.renameNode),
-    url(r'^deleteNode', views.deleteNode),
+    url(r'^removeNode', views.removeNode),
     url(r'^downloadFile/(?P<nodeId>.*?)$', views.downloadFile),
 ]

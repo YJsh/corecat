@@ -60,20 +60,20 @@ def renameNode(request):
     return HttpResponse()
 
 
-def deleteTree(node):
+def removeTree(node):
     if not node.isDir:
         node.file.delete()
         node.delete()
 
     for node in node.dir.all():
-        deleteTree(node)
+        removeTree(node)
 
 
-def deleteNode(request):
+def removeNode(request):
     nodeId = request.POST.get("id", -1)
     try:
         node = FileNode.objects.get(id=nodeId)
-        deleteTree(node)
+        removeTree(node)
     except ObjectDoesNotExist:
         pass
 
@@ -92,7 +92,7 @@ def addDir(request):
     node = FileNode(isDir=True, name=nodeName, parent=parent)
     node.save()
 
-    return HttpResponse()
+    return HttpResponse(json.dumps(node.id))
 
 
 def addFile(request):
