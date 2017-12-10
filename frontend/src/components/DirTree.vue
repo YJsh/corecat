@@ -73,13 +73,13 @@
         return true;
       },
       onClick: function(event, treeId, treeNode){
-        console.log("test2");
         if (treeNode.isParent) {
           let zTreeObj = $.fn.zTree.getZTreeObj("dirTree");
           zTreeObj.expandNode(treeNode);
         }
         else {
-          window.location.href = treeNode.fileUrl;
+          // 预览
+          // window.location.href = treeNode.fileUrl;
         }
       },
       onDrop: function(event, treeId, treeNodes, targetNode, moveType, isCopy) {
@@ -102,7 +102,6 @@
         renameNode(treeNode.id, treeNode.name);
       },
       addHoverDom: function(treeId, treeNode) {
-        if (!treeNode.isParent) return;
         if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length>0) return;
 
         let span = $("#" + treeNode.tId + "_span");
@@ -112,14 +111,21 @@
 
         let btn = $("#addBtn_" + treeNode.tId);
         if (btn) {
-          btn.bind("click", function() {
-            addDir(treeNode.id, "新建文件夹").then(function(response){
-              if (response.status !== 200) return;
-              let zTree = $.fn.zTree.getZTreeObj("dirTree");
-              zTree.addNodes(treeNode, {id: response.data, isParent: true, name: "新建文件夹"});
-              return true;
+          if (treeNode.isParent) {
+            btn.bind("click", function() {
+              addDir(treeNode.id, "新建文件夹").then(function(response){
+                if (response.status !== 200) return;
+                let zTree = $.fn.zTree.getZTreeObj("dirTree");
+                zTree.addNodes(treeNode, {id: response.data, isParent: true, name: "新建文件夹"});
+                return true;
+              });
             });
-          });
+          }
+          else {
+            btn.bind("click", function() {
+              window.location.href = treeNode.fileUrl;
+            });
+          }
         }
       },
       removeHoverDom: function(treeId, treeNode) {
