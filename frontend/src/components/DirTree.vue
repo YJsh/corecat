@@ -7,7 +7,7 @@
 <script>
   import ztree from 'ztree'
   import 'ztree/css/metroStyle/metroStyle.css'
-  import { getDirTree } from '@/api'
+  import { getDirTree, renameNode } from '@/api'
 
   export default {
     name: "dir-tree",
@@ -81,7 +81,10 @@
 
       },
       onRename: function(event, treeId, treeNode, isCancel) {
-
+        console.log(event, treeId, treeNode, isCancel)
+        if (isCancel) { return true; }
+        console.log(treeNode.id, treeNode.name);
+        renameNode(treeNode.id, treeNode.name);
       },
       onRightClick: function(event, treeId, treeNode) {
       },
