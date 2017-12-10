@@ -18,7 +18,10 @@ export const getDirTree = function() {
   return post("share/getDirTree");
 };
 
+export const deleteNode = function(id) {
+  return post("share/deleteNode", {"id":id});
+};
+
 export const renameNode = function(id, name) {
-  console.log(id, name);
-  return post("share/renameNode", {"id":id, "name":name})
+  return post("share/renameNode", {"id":id, "name":name});
 };

@@ -47,7 +47,6 @@ def getDirTree(request):
 def renameNode(request):
     nodeId = request.POST.get("id", -1)
     nodeName = request.POST.get("name", "")
-    print nodeId, nodeName
     try:
         node = FileNode.objects.get(id=nodeId)
         node.name = nodeName
@@ -60,11 +59,11 @@ def renameNode(request):
 
 def deleteTree(node):
     if not node.isDir:
-        # 删除文件
-        pass
+        node.file.delete()
+        node.delete()
 
     for node in node.dir.all():
-        node.file.delete()
+        deleteTree(node)
 
 
 def deleteNode(request):
