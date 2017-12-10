@@ -83,7 +83,10 @@
         }
       },
       onDrop: function(event, treeId, treeNodes, targetNode, moveType, isCopy) {
-        if (treeNodes[0].parentTId === targetNode.tId) return;
+        console.log(treeNodes);
+        console.log(targetNode);
+        if (moveType === null) return;
+
         let nodeIds = [];
         for (let i in treeNodes) {
           if(treeNodes.hasOwnProperty(i)) {
@@ -91,7 +94,7 @@
             nodeIds.push(node.id);
           }
         }
-        dropNode(nodeIds, targetNode.id);
+        dropNode(nodeIds, treeNodes[0].getParentNode().id);
       },
       onRemove: function(event, treeId, treeNode) {
         removeNode(treeNode.id);
