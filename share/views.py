@@ -27,6 +27,7 @@ def getTreeNodes(nodes, parent):
             getTreeNodes(node.dir.all(), treeNode)
 
         parent["children"].append(treeNode)
+    parent["children"].sort(key=lambda child: child["name"])
 
 
 def getDirTree(request):
@@ -46,6 +47,7 @@ def getDirTree(request):
 def renameNode(request):
     nodeId = request.POST.get("id", -1)
     nodeName = request.POST.get("name", "")
+    print nodeId, nodeName
     try:
         node = FileNode.objects.get(id=nodeId)
         node.name = nodeName
