@@ -51,7 +51,9 @@ def dropNode(request):
     nodeIds = json.loads(request.POST.get("ids", []))
     parentId = request.POST.get("parentId", -1)
     try:
-        parent = FileNode.objects.get(id=parentId)
+        parent = None
+        if int(parentId) != -1:
+            parent = FileNode.objects.get(id=parentId)
         for nodeId in nodeIds:
             node = FileNode.objects.get(id=nodeId)
             node.parent = parent

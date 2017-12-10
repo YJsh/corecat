@@ -83,13 +83,11 @@
         }
       },
       onDrop: function(event, treeId, treeNodes, targetNode, moveType, isCopy) {
-        console.log(event, treeId, treeNodes);
+        if (treeNodes[0].parentTId === targetNode.tId) return;
         let nodeIds = [];
         for (let i in treeNodes) {
           if(treeNodes.hasOwnProperty(i)) {
             let node = treeNodes[i];
-            console.log(node);
-            console.log(node.id);
             nodeIds.push(node.id);
           }
         }
