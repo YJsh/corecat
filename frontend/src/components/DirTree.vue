@@ -83,8 +83,6 @@
         }
       },
       onDrop: function(event, treeId, treeNodes, targetNode, moveType, isCopy) {
-        console.log(treeNodes);
-        console.log(targetNode);
         if (moveType === null) return;
 
         let nodeIds = [];
