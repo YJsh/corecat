@@ -105,8 +105,11 @@
         if (treeNode.editNameFlag || $("#downloadBtn_" + treeNode.tId).length>0) return;
 
         let span = $("#" + treeNode.tId + "_span");
+
+        let title = "下载";
+        if (treeNode.isParent) title = "新建文件夹";
         let addStr = "<span class='button add' id='downloadBtn_" + treeNode.tId
-          + "' title='下载' onfocus='this.blur();'></span>";
+          + "' title='" + title + "' onfocus='this.blur();'></span>";
         span.append(addStr);
 
         let btn = $("#downloadBtn_" + treeNode.tId);
