@@ -33,7 +33,7 @@ def getTreeNodes(nodes, parent, host):
 
         parent["children"].append(treeNode)
     parent["children"].sort(key=operator.itemgetter("isParent", "name"),
-                            reversed=True)
+                            reverse=True)
 
 
 def getDirTree(request):
