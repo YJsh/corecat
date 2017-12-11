@@ -78,8 +78,7 @@
           zTreeObj.expandNode(treeNode);
         }
         else {
-          // 预览
-          // window.location.href = treeNode.fileUrl;
+          // TODO: 预览
         }
       },
       onDrop: function(event, treeId, treeNodes, targetNode, moveType, isCopy) {
@@ -102,14 +101,15 @@
         renameNode(treeNode.id, treeNode.name);
       },
       addHoverDom: function(treeId, treeNode) {
-        if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length>0) return;
+        // TODO: Hover按钮会触发node的点击事件
+        if (treeNode.editNameFlag || $("#downloadBtn_" + treeNode.tId).length>0) return;
 
         let span = $("#" + treeNode.tId + "_span");
-        let addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-          + "' title='add node' onfocus='this.blur();'></span>";
+        let addStr = "<span class='button add' id='downloadBtn_" + treeNode.tId
+          + "' title='下载' onfocus='this.blur();'></span>";
         span.append(addStr);
 
-        let btn = $("#addBtn_" + treeNode.tId);
+        let btn = $("#downloadBtn_" + treeNode.tId);
         if (btn) {
           if (treeNode.isParent) {
             btn.bind("click", function() {
@@ -136,4 +136,5 @@
 </script>
 
 <style scoped>
+
 </style>

@@ -40,7 +40,7 @@ def getDirTree(request):
     nodes = FileNode.objects.filter(parent=None)
     dirTree = {
         "id": -1,
-        "name": u"共享目录（点击下载）",
+        "name": u"共享目录（点击预览）",
         "isParent": True,
         "open": True,
         "children": []
