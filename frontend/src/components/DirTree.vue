@@ -129,7 +129,7 @@
         }
       },
       removeHoverDom: function(treeId, treeNode) {
-        $("#addBtn_"+treeNode.tId).unbind().remove();
+        $("#downloadBtn_"+treeNode.tId).unbind().remove();
       },
     }
   }
