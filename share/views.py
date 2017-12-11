@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from models import FileNode
 
 import json
+import operator
 import urllib
 # Create your views here.
 
@@ -31,7 +32,7 @@ def getTreeNodes(nodes, parent, host):
                                   % (host, node.id)
 
         parent["children"].append(treeNode)
-    parent["children"].sort(key=lambda child: child["name"])
+    parent["children"].sort(key=operator.itemgetter("isParent", "name"))
 
 
 def getDirTree(request):
