@@ -32,7 +32,8 @@ def getTreeNodes(nodes, parent, host):
                                   % (host, node.id)
 
         parent["children"].append(treeNode)
-    parent["children"].sort(key=operator.itemgetter("isParent", "name"))
+    parent["children"].sort(key=operator.itemgetter("isParent", "name"),
+                            reversed=True)
 
 
 def getDirTree(request):
