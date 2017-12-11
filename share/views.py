@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from models import FileNode
 
 import json
+import urllib
 # Create your views here.
 
 
@@ -124,10 +125,9 @@ def addFile(request):
 
 def downloadFile(request, nodeId):
     def fileIter(fileNode, chunkSize=512):
-        fileNode.file.open("r")
+        fileNode.file.open("rb")
         chunk = fileNode.file.read(chunkSize)
         while chunk:
-            print(chunk)
             yield chunk
             chunk = fileNode.file.read(chunkSize)
         fileNode.file.close()
@@ -136,7 +136,8 @@ def downloadFile(request, nodeId):
         node = FileNode.objects.get(id=nodeId)
         response = StreamingHttpResponse(fileIter(node))
         response["Content-Type"] = "application/octet-stream"
-        response["Content-Disposition"] = "attachment;filename='%s'" % node.name
+        response["Content-Disposition"] = "attachment;filename='%s'" \
+                                          % urllib.quote(node.name.encode("utf-8"))
         return response
     except ObjectDoesNotExist:
         return HttpResponse()
