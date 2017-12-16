@@ -1,12 +1,18 @@
 <template>
   <div id="app">
+    <nav-menu></nav-menu>
     <router-view/>
   </div>
 </template>
 
 <script>
+  import NavMenu from './components/NavMenu';
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    NavMenu,
+  }
 }
 </script>
 
@@ -17,6 +23,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /*margin-top: 60px;*/
+  padding-top: 50px;
 }
 </style>

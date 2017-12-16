@@ -1,3 +1,4 @@
+<script src="../main.js"></script>
 <template>
   <div>
     <el-carousel indicator-position="outside">
