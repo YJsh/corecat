@@ -6,6 +6,7 @@ Vue.use(Vuex);
 const state = {
   count: 1,
   count2: 2,
+  isLogin: false,
   dirTreeNodeAdded: [],
 };
 
@@ -18,6 +19,9 @@ const mutations={
   },
   reduce(state){
     state.count-=1;
+  },
+  setLogin(isLogin) {
+    state.isLogin = isLogin;
   },
   addNodes(state, args) {
     let nodeId = args.nodeId;

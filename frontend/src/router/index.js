@@ -6,10 +6,11 @@ import Login from '@/components/Login'
 import NavMenu from '@/components/NavMenu'
 import SharedDir from '@/components/SharedDir'
 import Album from '@/components/Album'
+import CloudMusic from '@/components/CloudMusic'
 
 Vue.use(Router);
 
-export default new Router({
+const router =  new Router({
   routes: [
     {
       path: '/login',
@@ -35,6 +36,11 @@ export default new Router({
       path: '/nav',
       name: 'navMenu',
       component: NavMenu,
+    },
+    {
+      path: '/cloudMusic',
+      name: 'cloudMusic',
+      component: CloudMusic,
     }
     // {
     //   path: '*',
@@ -42,4 +48,15 @@ export default new Router({
     //   component: Error
     // }
   ]
-})
+});
+
+router.beforeEach((to, from, next) => {
+  if ("/login" !== to.path && !router.app.$store.state.isLogin) {
+    console.log("check failed");
+    router.push("/login");
+    return;
+  }
+  next();
+});
+
+export default router;
