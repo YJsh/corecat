@@ -27,12 +27,6 @@
         password: "",
       }
     },
-    computed: {
-      windowHeight() {
-        console.log(document.documentElement.clientHeight);
-        return document.documentElement.clientHeight.toString();
-      }
-    },
     methods: {
       login: function() {
         console.log(this.password);
