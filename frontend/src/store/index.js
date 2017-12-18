@@ -20,7 +20,7 @@ const mutations={
   reduce(state){
     state.count-=1;
   },
-  setLogin(isLogin) {
+  isLogin(state, isLogin) {
     state.isLogin = isLogin;
   },
   addNodes(state, args) {

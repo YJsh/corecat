@@ -1,13 +1,12 @@
-<script src="../main.js"></script>
 <template>
-  <div>
-    <el-carousel indicator-position="outside">
+  <div id="login">
+    <el-carousel height="100%">
       <el-carousel-item v-for="item in 4" :key="item">
         <h3>{{ item }}</h3>
       </el-carousel-item>
     </el-carousel>
 
-    <el-input type="password" placeholder="请输入密码" v-model="pwd" @keyup.enter.native="login" clearable>
+    <el-input type="password" placeholder="请输入密码" v-model="password" @keyup.enter.native="login" clearable>
     </el-input>
   </div>
 </template>
@@ -25,21 +24,30 @@
     name: "login",
     data: function() {
       return {
-        pwd: "",
+        password: "",
       }
     },
-    mounted: function() {
-
+    computed: {
+      windowHeight() {
+        console.log(document.documentElement.clientHeight);
+        return document.documentElement.clientHeight.toString();
+      }
     },
     methods: {
       login: function() {
-        console.log(this.pwd);
+        console.log(this.password);
+        this.$store.commit("isLogin", true);
+        this.$router.push("/share");
       }
     }
   }
 </script>
 
 <style scoped>
+  div #login, .el-carousel {
+    height: 100%;
+  }
+
   .el-carousel__item h3 {
     color: #475669;
     font-size: 18px;

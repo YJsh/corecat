@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div v-if="path === '/login'" id="loginApp">
+    <router-view/>
+  </div>
+  <div v-else id="app">
     <nav-menu></nav-menu>
     <router-view/>
   </div>
@@ -8,12 +11,17 @@
 <script>
   import NavMenu from './components/NavMenu';
 
-export default {
-  name: 'app',
-  components: {
-    NavMenu,
+  export default {
+    name: 'app',
+    computed: {
+      path() {
+        return this.$route.path
+      },
+    },
+    components: {
+      NavMenu,
+    }
   }
-}
 </script>
 
 <style>
@@ -23,7 +31,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /*margin-top: 60px;*/
   padding-top: 50px;
 }
+
+html,body,#loginApp {height: 100%;}
 </style>
