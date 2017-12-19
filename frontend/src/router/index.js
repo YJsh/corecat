@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Error from '@/compoents/Error'
 import Greet from '@/components/Greet'
 import Login from '@/components/Login'
 import NavMenu from '@/components/NavMenu'
@@ -42,17 +41,12 @@ const router =  new Router({
       name: 'cloudMusic',
       component: CloudMusic,
     }
-    // {
-    //   path: '*',
-    //   hidden: true,
-    //   component: Error
-    // }
   ]
 });
 
 router.beforeEach((to, from, next) => {
-  if ("/login" !== to.path && !router.app.$store.state.isLogin) {
-    console.log("check failed");
+  console.log(to.path, from.path);
+  if ("/login" !== to.path && (!router.app.$store || !router.app.$store.state.isLogin)) {
     router.push("/login");
     return;
   }
