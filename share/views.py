@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
 from django.http import StreamingHttpResponse
 from django.http import HttpResponse
-from django.http import JsonResponse
 from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 from models import FileNode
@@ -138,8 +136,8 @@ def downloadFile(request, nodeId):
         node = FileNode.objects.get(id=nodeId)
         response = StreamingHttpResponse(fileIter(node))
         response["Content-Type"] = "application/octet-stream"
-        response["Content-Disposition"] = "attachment;filename='%s'" \
-                                          % urllib.quote(node.name.encode("utf-8"))
+        response["Content-Disposition"] = \
+            "attachment;filename='%s'" % urllib.quote(node.name.encode("utf-8"))
         return response
     except ObjectDoesNotExist:
         return HttpResponse()
