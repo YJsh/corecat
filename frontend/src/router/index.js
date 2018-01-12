@@ -45,8 +45,7 @@ const router =  new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(to.path, from.path);
-  if ("/login" !== to.path && (!router.app.$store || !router.app.$store.state.isLogin)) {
+  if ("/login" !== to.path && (!router.app.$cookie || !router.app.$cookie.get("token"))) {
     router.push("/login");
     return;
   }

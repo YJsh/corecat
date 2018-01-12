@@ -15,6 +15,7 @@
   import Vue from "vue"
   import { Carousel, CarouselItem, Input } from "element-ui"
   import "element-ui/lib/theme-chalk/index.css"
+  import { login } from "../api";
 
   Vue.use(Carousel);
   Vue.use(CarouselItem);
@@ -29,10 +30,13 @@
     },
     methods: {
       login: function() {
-        console.log(this.password);
-        this.$store.commit("isLogin", true);
-        this.$router.push("/share");
-      }
+        login(this.password).then(this.afterLogin);
+      },
+      afterLogin(response) {
+        if (response.status === 200) {
+          this.$router.push("/");
+        }
+      },
     }
   }
 </script>
@@ -59,7 +63,7 @@
   }
 
   .el-input {
-    width: 280px;
+    width: 320px;
     position:absolute;
     left: 60%;
     top: 40%;
