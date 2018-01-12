@@ -42,3 +42,7 @@ export const addDir = function(parentId, name) {
 export const login = function(password) {
   return post("login", {"password":password});
 };
+
+export const logout = function() {
+  return post("logout");
+};
