@@ -6,6 +6,7 @@ const instance = axios.create({
 });
 
 const post = function(url, data=null) {
+  url = "/api/" + url;
   if (data) {
     return instance.post(url, qs.stringify(data));
   }
@@ -15,29 +16,29 @@ const post = function(url, data=null) {
 };
 
 export const getDirTree = function() {
-  return post("/api/share/getDirTree");
+  return post("share/getDirTree");
 };
 
 export const dropNode = function(ids, parentId) {
-  return post("/api/share/dropNode", {"ids":JSON.stringify(ids), "parentId":parentId});
+  return post("share/dropNode", {"ids":JSON.stringify(ids), "parentId":parentId});
 };
 
 export const removeNode = function(id) {
-  return post("/api/share/removeNode", {"id":id});
+  return post("share/removeNode", {"id":id});
 };
 
 export const renameNode = function(id, name) {
-  return post("/api/share/renameNode", {"id":id, "name":name});
+  return post("share/renameNode", {"id":id, "name":name});
 };
 
 export const downloadFile = function(id) {
-  return post("/api/share/downloadFile", {"id":id});
+  return post("share/downloadFile", {"id":id});
 };
 
 export const addDir = function(parentId, name) {
-  return post("/api/share/addDir", {"parentId":parentId, "name":name});
+  return post("share/addDir", {"parentId":parentId, "name":name});
 };
 
 export const login = function(password) {
-  return post("/api/login", {"password":password});
+  return post("login", {"password":password});
 };
