@@ -3,7 +3,7 @@
     class="upload-demo"
     name="uploadFile"
     drag
-    action="http://localhost:8000/share/addFile"
+    action="/api/share/addFile"
     ref="upload"
     :on-success="uploadSucc">
     <i class="el-icon-upload"></i>
