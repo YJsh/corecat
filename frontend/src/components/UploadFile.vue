@@ -30,6 +30,8 @@
   }
 </script>
 
-<style scoped>
-
+<style>
+  .el-upload input[type="file"] {
+    display: none;
+  }
 </style>
