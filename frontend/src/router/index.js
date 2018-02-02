@@ -6,6 +6,8 @@ import NavMenu from '@/components/NavMenu'
 import SharedDir from '@/components/SharedDir'
 import Album from '@/components/Album'
 import CloudMusic from '@/components/CloudMusic'
+import WishList from '@/components/WishList'
+import ExtensibleItem from '@/components/ExtensibleItem'
 
 Vue.use(Router);
 
@@ -40,16 +42,22 @@ const router =  new Router({
       path: '/cloudMusic',
       name: 'cloudMusic',
       component: CloudMusic,
+    },
+    {
+      path: '/wishList',
+      name: 'wishList',
+      component: WishList,
+      // component: ExtensibleItem,
     }
   ]
 });
 
-router.beforeEach((to, from, next) => {
-  if ("/login" !== to.path && (!router.app.$cookie || !router.app.$cookie.get("token"))) {
-    router.push("/login");
-    return;
-  }
-  next();
-});
+// router.beforeEach((to, from, next) => {
+//   if ("/login" !== to.path && (!router.app.$cookie || !router.app.$cookie.get("token"))) {
+//     router.push("/login");
+//     return;
+//   }
+//   next();
+// });
 
 export default router;

@@ -51,6 +51,6 @@
 
   html,body,#loginApp {height: 100%;}
 
-  html,body,#app,.el-container {height: 100%;}
+  html,body,#app,.el-container,.el-main {height: 100%;}
 
 </style>
